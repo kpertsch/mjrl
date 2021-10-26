@@ -16,6 +16,7 @@ import mjrl.samplers.core as trajectory_sampler
 # utility functions
 import mjrl.utils.process_samples as process_samples
 from mjrl.utils.logger import DataLog
+from mjrl.utils.wandb_logger import WandbLogger
 from mjrl.utils.cg_solve import cg_solve
 from mjrl.algos.batch_reinforce import BatchREINFORCE
 
@@ -52,7 +53,9 @@ class NPG(BatchREINFORCE):
         self.FIM_invert_args = FIM_invert_args
         self.hvp_subsample = hvp_sample_frac
         self.running_score = None
-        if save_logs: self.logger = DataLog()
+        if save_logs:
+            #self.logger = DataLog()
+            self.logger = WandbLogger()
         # input normalization (running average)
         self.input_normalization = input_normalization
         if self.input_normalization is not None:
