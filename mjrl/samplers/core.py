@@ -61,6 +61,7 @@ def do_rollout(
         rewards=[]
         agent_infos = []
         env_infos = []
+        images = []
 
         o = env.reset()
         done = False
@@ -74,11 +75,15 @@ def do_rollout(
             next_o, r, done, env_info_step = env.step(a)
             # below is important to ensure correct env_infos for the timestep
             env_info = env_info_step if env_info_base == {} else env_info_base
+            if False: #eval_mode:
+                img = env.env.render(mode='rgb_array').transpose(2, 0, 1)
+                images.append(img)
             observations.append(o)
             actions.append(a)
             rewards.append(r)
             agent_infos.append(agent_info)
             env_infos.append(env_info)
+
             o = next_o
             t += 1
 
@@ -88,7 +93,8 @@ def do_rollout(
             rewards=np.array(rewards),
             agent_infos=tensor_utils.stack_tensor_dict_list(agent_infos),
             env_infos=tensor_utils.stack_tensor_dict_list(env_infos),
-            terminated=done
+            terminated=done,
+            images=np.array(images),
         )
         paths.append(path)
 

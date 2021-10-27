@@ -109,7 +109,7 @@ def train_agent(job_name, agent,
 
         if evaluation_rollouts is not None and evaluation_rollouts > 0:
             print("Performing evaluation rollouts ........")
-            eval_paths = sample_paths(num_traj=evaluation_rollouts, policy=agent.policy, num_cpu=num_cpu,
+            eval_paths = sample_paths(num_traj=evaluation_rollouts, policy=agent.policy, num_cpu=1, # was: num_cpu
                                       env=e.env_id, eval_mode=True, base_seed=seed)
             mean_pol_perf = np.mean([np.sum(path['rewards']) for path in eval_paths])
             if agent.save_logs:
@@ -119,6 +119,7 @@ def train_agent(job_name, agent,
                     agent.logger.log_kv('eval_success', eval_success)
                 except:
                     pass
+                #agent.logger.log_videos([path['images'] for path in eval_paths], name="rollout_videos")
 
         if i % save_freq == 0 and i > 0:
             if agent.save_logs:
