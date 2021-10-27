@@ -151,22 +151,30 @@ class GymEnv(object):
 
     # ===========================================
 
-    def visualize_policy(self, policy, horizon=1000, num_episodes=1, mode='exploration'):
+    def visualize_policy(self, policy, horizon=1000, num_episodes=1, mode='exploration', policy_path=''):
         try:
             self.env.env.visualize_policy(policy, horizon, num_episodes, mode)
         except:
+            from mjrl.utils.wandb_logger import WandbLogger
+            logger = WandbLogger(job_name=self.env_id+"__"+policy_path)
+            trajs = []
             for ep in range(num_episodes):
                 o = self.reset()
                 d = False
                 t = 0
                 score = 0.0
+                images = []
                 while t < horizon and d is False:
                     a = policy.get_action(o)[0] if mode == 'exploration' else policy.get_action(o)[1]['evaluation']
                     o, r, d, _ = self.step(a)
                     score = score + r
-                    self.render()
+                    #self.render()
+                    img = env.env.render(mode='rgb_array').transpose(2, 0, 1)
+                    images.append(img)
                     t = t+1
                 print("Episode score = %f" % score)
+                trajs.append(np.array(images))
+            logger.log_videos(np.array(trajs), "rollout_vis")
 
     def evaluate_policy(self, policy,
                         num_episodes=5,
