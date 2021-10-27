@@ -8,10 +8,10 @@ from mjrl.utils.logger import DataLog
 class WandbLogger(DataLog):
     """Extends logger to also log to wandb."""
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, job_name='', **kwargs):
         super().__init__(*args, **kwargs)
         wandb.init(
-            resume='',
+            resume=job_name,
             project='semantic_imitation',
             config={},
             dir='./logs',

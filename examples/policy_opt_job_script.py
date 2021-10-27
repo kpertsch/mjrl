@@ -69,7 +69,7 @@ if job_data['algorithm'] == 'NPG':
     # Other hyperparameters (like number of CG steps) can be specified in config for pass through
     # or default hyperparameters will be used
     agent = NPG(e, policy, baseline, normalized_step_size=job_data['rl_step_size'],
-                seed=job_data['seed'], save_logs=True, **job_data['alg_hyper_params'])
+                seed=job_data['seed'], save_logs=True, **job_data['alg_hyper_params'], job_name=JOB_DIR)
 
 elif job_data['algorithm'] == 'VPG':
     agent = BatchREINFORCE(e, policy, baseline, learn_rate=job_data['rl_step_size'],

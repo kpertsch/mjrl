@@ -31,6 +31,7 @@ class NPG(BatchREINFORCE):
                  save_logs=False,
                  kl_dist=None,
                  input_normalization=None,
+                 job_name='',
                  **kwargs
                  ):
         """
@@ -55,7 +56,7 @@ class NPG(BatchREINFORCE):
         self.running_score = None
         if save_logs:
             #self.logger = DataLog()
-            self.logger = WandbLogger()
+            self.logger = WandbLogger(job_name=job_name)
         # input normalization (running average)
         self.input_normalization = input_normalization
         if self.input_normalization is not None:
