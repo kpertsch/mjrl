@@ -69,6 +69,7 @@ def train_agent(job_name, agent,
                 num_traj = 50,
                 num_samples = 50000, # has precedence, used with sample_mode = 'samples'
                 save_freq = 10,
+                eval_freq = 10,
                 evaluation_rollouts = None,
                 plot_keys = ['stoc_pol_mean'],
                 ):
@@ -107,9 +108,9 @@ def train_agent(job_name, agent,
         stats = agent.train_step(**args)
         train_curve[i] = stats[0]
 
-        if evaluation_rollouts is not None and evaluation_rollouts > 0:
+        if i % eval_freq == 0 and i > 0 and evaluation_rollouts is not None and evaluation_rollouts > 0:
             print("Performing evaluation rollouts ........")
-            eval_paths = sample_paths(num_traj=evaluation_rollouts, policy=agent.policy, num_cpu=1, # was: num_cpu
+            eval_paths = sample_paths(num_traj=evaluation_rollouts, policy=agent.policy, num_cpu=num_cpu,
                                       env=e.env_id, eval_mode=True, base_seed=seed)
             mean_pol_perf = np.mean([np.sum(path['rewards']) for path in eval_paths])
             if agent.save_logs:
