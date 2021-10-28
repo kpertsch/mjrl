@@ -156,7 +156,7 @@ class GymEnv(object):
             self.env.env.visualize_policy(policy, horizon, num_episodes, mode)
         except:
             from mjrl.utils.wandb_logger import WandbLogger
-            logger = WandbLogger(job_name=self.env_id+"__"+policy_path)
+            logger = WandbLogger(job_name=self.env_id+"__"+policy_path+str(np.random.randint(1000)))
             trajs = []
             for ep in range(num_episodes):
                 o = self.reset()
@@ -169,7 +169,7 @@ class GymEnv(object):
                     o, r, d, _ = self.step(a)
                     score = score + r
                     #self.render()
-                    img = env.env.render(mode='rgb_array').transpose(2, 0, 1)
+                    img = self.env.render(mode='rgb_array').transpose(2, 0, 1)
                     images.append(img)
                     t = t+1
                 print("Episode score = %f" % score)

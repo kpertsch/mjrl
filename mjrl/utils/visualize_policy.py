@@ -7,7 +7,9 @@ import numpy as np
 import pickle
 from mjrl.utils.gym_env import GymEnv
 from mjrl.policies.gaussian_mlp import MLP
-import trajopt.envs
+import d4rl
+import d4rl.kitchen_2
+#import trajopt.envs
 
 DESC = '''
 Helper script to visualize policy (in mjrl format).\n
@@ -32,7 +34,7 @@ def main(env_name, policy, mode, seed, episodes):
     else:
         pi = MLP(e.spec, hidden_sizes=(32,32), seed=seed, init_log_std=-1.0)
     # render policy
-    e.visualize_policy(pi, num_episodes=episodes, horizon=e.horizon, mode=mode, policy_path=policy)
+    e.visualize_policy(pi, num_episodes=episodes, horizon=e.horizon, mode=mode, policy_path=policy.split('/')[0])
 
 if __name__ == '__main__':
     main()
