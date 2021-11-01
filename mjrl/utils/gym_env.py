@@ -175,6 +175,33 @@ class GymEnv(object):
                 print("Episode score = %f" % score)
                 trajs.append(np.array(images))
             logger.log_videos(np.array(trajs), "rollout_vis")
+            
+    def collect_policy_rollouts(self, policy, horizon=1000, num_episodes=1, mode='exploration', save_path=None):
+        import h5py, tqdm, os
+        for ep in tqdm.tqdm(range(num_episodes)):
+            states = [self.reset()]
+            d = False
+            t = 0
+            score = 0.0
+            while t < horizon and d is False:
+                a = policy.get_action(o)[0] if mode == 'exploration' else policy.get_action(o)[1]['evaluation']
+                o, r, d, _ = self.step(a)
+                score = score + r
+                # #self.render()
+                # img = self.env.render(mode='rgb_array').transpose(2, 0, 1)
+                # images.append(img)
+                states.append(o)
+                t = t+1
+            print("Episode score = %f" % score)
+
+            # log states trajectory to file
+            f = h5py.File(os.path.join(save_path, "rollout_{}.h5".format(ep)), "w")
+            f.create_dataset("traj_per_file", data=1)
+
+            # store trajectory info in traj0 group
+            traj_data = f.create_group("traj0")
+            traj_data.create_dataset("states", data=np.array(states))
+            f.close()
 
     def evaluate_policy(self, policy,
                         num_episodes=5,
