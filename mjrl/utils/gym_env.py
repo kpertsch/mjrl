@@ -178,6 +178,7 @@ class GymEnv(object):
             
     def collect_policy_rollouts(self, policy, horizon=1000, num_episodes=1, mode='exploration', save_path=None):
         import h5py, tqdm, os
+        os.makedirs(save_path, exists_ok=True)
         for ep in tqdm.tqdm(range(num_episodes)):
             states = [self.reset()]
             d = False
