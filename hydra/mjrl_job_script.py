@@ -15,10 +15,12 @@ from mjrl.algos.ppo_clip import PPO
 from mjrl.utils.train_agent import train_agent
 import os
 import json
+import d4rl
+import d4rl.kitchen_2
 import gym
 import mjrl.envs
 import time as timer
-import mj_envs
+
 
 def train_loop(job_data) -> None:
 
