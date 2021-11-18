@@ -7,9 +7,9 @@
 'sample_mode'       :   'trajectories',
 'rl_num_traj'       :   200,
 'rl_num_samples'    :   0,                       # will be ignored when sample_mode=trajectories
-'num_cpu'           :   10,
-'rl_num_iter'       :   501,
-'save_freq'         :   100,
+'num_cpu'           :   20,
+'rl_num_iter'       :   5001,
+'save_freq'         :   50,
 'eval_rollouts'     :   10,
 'exp_notes'         :  "Sample config for kitchen tasks",
 

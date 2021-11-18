@@ -22,7 +22,7 @@ Helper script to collect policy rollouts (in SPiRL data format).\n
 @click.option('--mode', type=str, help='exploration or evaluation mode for policy', default='evaluation')
 @click.option('--seed', type=int, help='seed for generating environment instances', default=123)
 @click.option('--episodes', type=int, help='number of episodes to visualize', default=20)
-@click.option('--save_dir', type=int, help='directory to save rollouts to', default=None)
+@click.option('--save_dir', type=str, help='directory to save rollouts to', default=None)
 
 def main(env_name, policy, mode, seed, episodes, save_dir):
     e = GymEnv(env_name)
