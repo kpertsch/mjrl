@@ -13,6 +13,9 @@ class DataLog:
         self.log = {}
         self.max_len = 0
 
+    def log_videos(self, *args, **kwargs):
+        pass
+
     def log_kv(self, key, value):
         # logs the (key, value) pair
 

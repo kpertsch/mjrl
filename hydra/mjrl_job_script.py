@@ -23,7 +23,6 @@ import time as timer
 
 
 def train_loop(job_data) -> None:
-
     e = GymEnv(job_data.env)
     policy_size = tuple(eval(job_data.policy_size))
     vf_hidden_size = tuple(eval(job_data.vf_hidden_size))

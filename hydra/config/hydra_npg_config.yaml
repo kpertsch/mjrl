@@ -4,7 +4,7 @@ default:
 
 # general inputs
 kitchen_task      :   BB
-env               :   kitchen-2-${kitchen_task}-datainit-v0      # placeholder name
+env               :   kitchen-${kitchen_task}-v0      # placeholder name
 algorithm         :   NPG
 seed              :   123
 sample_mode       :   trajectories
@@ -33,8 +33,8 @@ rl_gae            :   0.97
 alg_hyper_params  :   {'device': 'cpu'}
 
 # general outputs
-job_name          :   'job'
+job_name          :   kitchen_${kitchen_task}_RERUN_DEBUG
 
 hydra:
     job:
-        name: mjrl_npg_train_${env}
+        name: ${job_name}
